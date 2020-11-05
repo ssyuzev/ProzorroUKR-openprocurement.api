@@ -9,22 +9,23 @@ services:
     depends_on:
       - couchdb
     volumes:
-      - "./src:/app/src:delegated"
-      - "./docs:/app/docs:delegated"
+      - ".:/app"
     ports:
       - "8000:80"
     command: sleep infinity
-  test:
-    build:
-      context: .
-      dockerfile: DockerfileTest
-    depends_on:
-      - couchdb
-    volumes:
-      - "./src/openprocurement:/app/src/openprocurement:delegated"
-      - "./docs:/app/docs:delegated"
+  # test:
+  #   build:
+  #     context: .
+  #     dockerfile: DockerfileTest
+  #   depends_on:
+  #     - couchdb
+  #   volumes:
+  #     - "./src/openprocurement:/app/src/openprocurement:delegated"
+  #     - "./docs:/app/docs:delegated"
   couchdb:
     image: "couchdb:1.6"
+    volumes:
+      - "./data:/var/lib/couchdb:delegated"
     environment:
       COUCHDB_USER: op
       COUCHDB_PASSWORD: op
